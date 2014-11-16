@@ -72,6 +72,7 @@
 		<config-file target="config.xml" parent="/*">
 			<feature name="ParsePlugin">
 				<param name="ios-package" value="ParsePlugin" />
+                <param name="deployment-target" value="7.0" />
 			</feature>
 		</config-file>
 
@@ -80,8 +81,7 @@
 
 		<framework src="libs/ios/Parse.framework" custom="true" />
 		<framework src="libs/ios/Bolts.framework" custom="true" />
-		<framework src="libs/ios/ParseFacebookUtils.framework" custom="true" />
-		<framework src="libs/ios/ParseUI.framework" custom="true" />
+<!--		<framework src="libs/ios/ParseUI.framework" custom="true" />-->
 
 	</platform>
 
