@@ -22,5 +22,29 @@ parseExport.echo = function (successCallback, failureCallback) {
 	cordova.exec(successCallback, failureCallback, 'ParsePlugin', 'echo');
 };
 
+parseExport.initialize = function (appId, clientKey, successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'initialize', [appId, clientKey]);
+};
+
+parseExport.getInstallationId = function (successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'getInstallationId', []);
+};
+
+parseExport.getInstallationObjectId = function (successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'getInstallationObjectId', []);
+};
+
+parseExport.getSubscriptions = function (successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'getSubscriptions', []);
+};
+
+parseExport.subscribe = function (channel, successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'subscribe', [channel]);
+};
+
+parseExport.unsubscribe = function (channel, successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'unsubscribe', [channel]);
+};
+
 
 module.exports = parseExport;
