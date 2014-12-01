@@ -46,5 +46,8 @@ parseExport.unsubscribe = function (channel, successCallback, errorCallback) {
 	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'unsubscribe', [channel]);
 };
 
+parseExport.getPendingPush = function (channel, successCallback, errorCallback) {
+	cordova.exec(successCallback, errorCallback, 'ParsePlugin', 'getPendingPush', []);
+};
 
 module.exports = parseExport;
