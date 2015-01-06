@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0" id="se.frostyelk.cordova.parse.plugin" version="0.0.1">
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0" id="se.frostyelk.cordova.parse.plugin" version="0.0.2">
 	<name>Cordova Parse plugin</name>
 	<description>Cordova plugin for Parse</description>
 	<author>Arne Sikstrom</author>
@@ -32,6 +32,13 @@
 				</intent-filter>
 			</receiver>
 
+			<receiver android:name="se.frostyelk.cordova.parse.plugin.ParseWakeUpReceiver">
+				<intent-filter>
+					<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+					<category android:name="$PACKAGE_NAME" />
+				</intent-filter>
+			</receiver>
+
 			<receiver android:name="com.parse.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
 				<intent-filter>
 					<action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -47,7 +54,6 @@
 					<action android:name="com.parse.push.intent.DELETE" />
 				</intent-filter>
 			</receiver>
-
 
 		</config-file>
 
@@ -70,6 +76,7 @@
 		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePlugin.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
 		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePluginBroadcastReciever.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
 		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePluginMainApplication.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
+		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParseWakeUpReceiver.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
 	</platform>
 
 

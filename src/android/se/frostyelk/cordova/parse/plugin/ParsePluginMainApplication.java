@@ -27,6 +27,9 @@ import com.parse.ParseInstallation;
 /**
  * This is a workaround for Parse Push. ParsePush needs a context when the push
  * is received.
+ *
+ * The Application level is not used. It has been replaced by a nicer workaround. Please
+ * see the ParseWakeUpReceiver class.
  */
 @SuppressWarnings("UnusedDeclaration")
 public class ParsePluginMainApplication extends Application {
