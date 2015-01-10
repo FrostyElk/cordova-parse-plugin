@@ -30,22 +30,39 @@
     
     [Parse setApplicationId: appId clientKey:clientKey];
     
+    // Register for Push Notitications iOS 8
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                        UIUserNotificationTypeBadge |
+                                                        UIUserNotificationTypeSound);
+        
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+        // Register for Push Notifications before iOS 8
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    }
+    
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+
 - (void)getInstallationId:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"Parse Plugin getInstallationId");
-    CDVPluginResult* pluginResult = nil;
     
-    NSString* installationId = nil;
-    
-    installationId = @"123123123";
-    
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:installationId];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        NSString *installId = currentInstallation.installationId;
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:installId];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
+
 
 - (void)getPendingPush:(CDVInvokedUrlCommand*)command
 {
@@ -55,6 +72,38 @@
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     
+}
+
+
+- (void)subscribe: (CDVInvokedUrlCommand *)command
+{
+    NSLog(@"Parse Plugin subscribe");
+    
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        NSString *channel = [command.arguments objectAtIndex:0];
+        [currentInstallation addUniqueObject:channel forKey:@"channels"];
+        [currentInstallation saveInBackground];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+
+- (void)unsubscribe: (CDVInvokedUrlCommand *)command
+{
+    NSLog(@"Parse Plugin unsubscribe");
+    
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* pluginResult = nil;
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        NSString *channel = [command.arguments objectAtIndex:0];
+        [currentInstallation removeObject:channel forKey:@"channels"];
+        [currentInstallation saveInBackground];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 

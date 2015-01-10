@@ -24,6 +24,8 @@
 - (void)initialize:(CDVInvokedUrlCommand*)command;
 - (void)getInstallationId:(CDVInvokedUrlCommand*)command;
 - (void)getPendingPush:(CDVInvokedUrlCommand*)command;
+- (void)subscribe:(CDVInvokedUrlCommand*)command;
+- (void)unsubscribe:(CDVInvokedUrlCommand*)command;
 
 @end
 
