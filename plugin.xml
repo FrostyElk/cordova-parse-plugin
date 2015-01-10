@@ -88,8 +88,8 @@
 			</feature>
 		</config-file>
 
-		<header-file src="src/ios/ParsePlugin-Bridging-Header.h" />
-		<source-file src="src/ios/ParsePlugin.swift" />
+		<header-file src="src/ios/objc/ParsePlugin.h" />
+		<source-file src="src/ios/objc/ParsePlugin.m" />
 
 		<framework src="libs/ios/Parse.framework" custom="true" />
 		<framework src="libs/ios/Bolts.framework" custom="true" />
