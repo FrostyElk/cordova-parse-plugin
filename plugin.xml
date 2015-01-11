@@ -90,6 +90,10 @@
 
 		<header-file src="src/ios/objc/ParsePlugin.h" />
 		<source-file src="src/ios/objc/ParsePlugin.m" />
+        
+        <header-file src="src/ios/objc/AppDelegate+ParsePushNotification.h" />
+        <source-file src="src/ios/objc/AppDelegate+ParsePushNotification.m" />
+
 
 		<framework src="libs/ios/Parse.framework" custom="true" />
 		<framework src="libs/ios/Bolts.framework" custom="true" />

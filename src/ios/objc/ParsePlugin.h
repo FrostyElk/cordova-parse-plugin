@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-#ifndef _ParsePlugin_h
-#define _ParsePlugin_h
-
 #import <Cordova/CDV.h>
 
-@interface ParsePlugin : CDVPlugin
+@interface ParsePlugin : CDVPlugin {
+    NSMutableArray* pendingNotifications;
+}
 
+@property (nonatomic, copy) NSString *callbackId;
+@property (nonatomic, retain) NSMutableArray* pendingNotifications;
+
+// JS Interface
 - (void)initialize:(CDVInvokedUrlCommand*)command;
 - (void)getInstallationId:(CDVInvokedUrlCommand*)command;
 - (void)getPendingPush:(CDVInvokedUrlCommand*)command;
 - (void)subscribe:(CDVInvokedUrlCommand*)command;
 - (void)unsubscribe:(CDVInvokedUrlCommand*)command;
 
+// AppDelegate+ParsePushNotification callbacks
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+- (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
+- (void)didReceiveRemoteNotificationWithPayload:(NSDictionary *)payload;
+
+
 @end
-
-
-
-#endif
