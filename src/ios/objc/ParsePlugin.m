@@ -204,11 +204,10 @@ BOOL canDeliverNotifications = NO;
     
     NSLog(@"Msg: %@", json);
     
-    NSString * jsCallBack = [NSString stringWithFormat:@"javascript:cordova.fireDocumentEvent('onParsePushReceived', %@))",json];
+    NSString * jsCallBack = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onParsePushReceived', %@);",json];
     
-    NSLog(@"JS callback string: %@", jsCallBack);
+    //    NSLog(@"JS callback string: %@", jsCallBack);
     
-    //TODO: Event is not received on app level
     if(receivedInForeground) {
         NSLog(@"Sending in foreground");
         [self.commandDelegate evalJs:jsCallBack];
