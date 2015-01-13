@@ -50,11 +50,23 @@
 {
     NSLog(@"AppDelegate+ParsePushNotification parseTrackAppOpen");
     
+    // Restore the Appid and ClientKey that was saved during initialize
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *clientKey = [defaults objectForKey:@"ClientKey"];
+    NSString *appId =  [defaults objectForKey:@"AppId"];
+    
+    if (clientKey && appId) {
+        NSLog(@"Setting new Parse Id: %@, Key: %@", appId, clientKey);
+        [Parse setApplicationId:appId clientKey:clientKey];
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        [currentInstallation saveInBackground];
+    }
+    
+    // Parse Analytics
     if (notification)
     {
-        //        NSDictionary *launchOptions = [notification userInfo];
-        //        [Parse setApplicationId:@"r7aHNhWLVVZeLMj36TngO5j8pUrgAtx3CkwhGuW6" clientKey:@"WXBNgQEIplGqUfDGQliScPXvPo21mzWPi1Z2wttb"];
-        //        [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        NSDictionary *launchOptions = [notification userInfo];
+        [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     }
 }
 

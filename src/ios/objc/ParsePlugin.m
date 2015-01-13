@@ -50,7 +50,7 @@ BOOL canDeliverNotifications = NO;
     
     if(payload) {
         NSMutableDictionary *extendedPayload = [payload mutableCopy];
-        [extendedPayload setObject:[NSNumber numberWithBool:NO] forKey:@"receivedInForeground"];
+        [extendedPayload setObject:[NSNumber numberWithBool:NO] forKey:@"foreground"];
         coldstartNotification = extendedPayload;
     }
 }
@@ -65,6 +65,14 @@ BOOL canDeliverNotifications = NO;
     NSString* clientKey = [command.arguments objectAtIndex:1];
     
     [Parse setApplicationId: appId clientKey:clientKey];
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation saveInBackground];
+    
+    // Save the Parse Id and Key for AppDelegate to re-initialize at coldstart
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject: appId forKey: @"AppId"];
+    [defaults setObject: clientKey forKey: @"ClientKey"];
     
     // Register for Push Notitications iOS 8
     if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
@@ -83,7 +91,7 @@ BOOL canDeliverNotifications = NO;
     
     self.callbackId = command.callbackId;
     
-    [self flushNotificationEventQueue];
+    //    [self flushNotificationEventQueue];
     canDeliverNotifications = YES;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -109,6 +117,8 @@ BOOL canDeliverNotifications = NO;
 {
     NSLog(@"Parse Plugin getPendingPush");
     CDVPluginResult* pluginResult = nil;
+    
+    [self flushNotificationEventQueue];
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -228,6 +238,8 @@ BOOL canDeliverNotifications = NO;
 
 - (void) didBecomeActive:(NSNotification *)notification
 {
+    NSLog(@"Parse Plugin didBecomeActive");
+    
     if(canDeliverNotifications)
     {
         [self flushNotificationEventQueue];
@@ -237,6 +249,8 @@ BOOL canDeliverNotifications = NO;
 
 -(void) flushNotificationEventQueue
 {
+    NSLog(@"Parse Plugin flushNotificationEventQueue");
+    
     if(jsEventQueue != nil && [jsEventQueue count] > 0)
     {
         for(NSString *notificationEvent in jsEventQueue)
@@ -250,11 +264,15 @@ BOOL canDeliverNotifications = NO;
 
 - (void) pluginInitialize
 {
+    NSLog(@"Parse Plugin pluginInitialize");
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:)
                                                  name:UIApplicationDidBecomeActiveNotification object:nil];
     
     if(coldstartNotification)
     {
+        NSLog(@"Parse Plugin coldstartNotification");
+        
         [self didReceiveRemoteNotificationWithPayload:coldstartNotification];
         coldstartNotification = nil;
     }
