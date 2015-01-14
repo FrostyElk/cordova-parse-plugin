@@ -60,14 +60,16 @@
         [Parse setApplicationId:appId clientKey:clientKey];
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         [currentInstallation saveInBackground];
+        
+        // Parse Analytics
+        if (notification)
+        {
+            NSDictionary *launchOptions = [notification userInfo];
+            [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+        }
     }
     
-    // Parse Analytics
-    if (notification)
-    {
-        NSDictionary *launchOptions = [notification userInfo];
-        [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    }
+    
 }
 
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -87,7 +89,7 @@
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)payload
 {
     
-    NSLog(@"didReceiveRemoteNotification");
+    NSLog(@"AppDelegate+ParsePushNotification didReceiveRemoteNotification");
     UIApplicationState appstate = [[UIApplication sharedApplication] applicationState];
     
     NSMutableDictionary *extendedPayload = [payload mutableCopy];

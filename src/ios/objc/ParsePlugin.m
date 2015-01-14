@@ -45,12 +45,14 @@ BOOL canDeliverNotifications = NO;
 
 + (void) checkForColdStartNotification:(NSNotification *)notification
 {
+    NSLog(@"Parse Plugin checkForColdStartNotification");
     NSDictionary *launchOptions = [notification userInfo];
     NSDictionary *payload = [launchOptions objectForKey: @"UIApplicationLaunchOptionsRemoteNotificationKey"];
     
     if(payload) {
         NSMutableDictionary *extendedPayload = [payload mutableCopy];
         [extendedPayload setObject:[NSNumber numberWithBool:NO] forKey:@"foreground"];
+        [extendedPayload setObject:[NSNumber numberWithBool:YES] forKey:@"coldstart"];
         coldstartNotification = extendedPayload;
     }
 }
