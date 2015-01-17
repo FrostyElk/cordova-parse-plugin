@@ -69,9 +69,9 @@
 			<uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" />
 		</config-file>
 
-		<source-file src="libs/android/parse/Parse-1.8.0.jar" target-dir="libs" framework="true" />
+		<source-file src="libs/android/parse/Parse-1.8.1.jar" target-dir="libs" framework="true" />
 		<source-file src="libs/android/parse/bolts-android-1.1.4.jar" target-dir="libs" framework="true" />
-		<source-file src="libs/android/parse/ParseCrashReporting-1.8.0.jar" target-dir="libs" framework="true" />
+		<source-file src="libs/android/parse/ParseCrashReporting-1.8.1.jar" target-dir="libs" framework="true" />
 
 		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePlugin.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
 		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePluginBroadcastReciever.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />

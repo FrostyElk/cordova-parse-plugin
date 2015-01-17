@@ -728,7 +728,7 @@ Method in class com.parse.<A HREF="./com/parse/ParseACL.html" title="class in co
 <DD>Set whether the public is allowed to write this object.
 <DT><A HREF="./com/parse/ParseInstallation.html#getQuery()"><B>getQuery()</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseInstallation.html" title="class in com.parse">ParseInstallation</A>
-<DD>Constructs a query for ParseInstallations.
+<DD><B>Deprecated.</B>&nbsp;<I>Please use <A HREF="./com/parse/ParseQuery.html#getQuery(java.lang.Class)"><CODE>ParseQuery.getQuery(Class)</CODE></A>.</I>
 <DT><A HREF="./com/parse/ParseQuery.html#getQuery(java.lang.Class)"><B>getQuery(Class&lt;T&gt;)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseQuery.html" title="class in com.parse">ParseQuery</A>
 <DD>Creates a new query for the given ParseObject subclass type.
@@ -743,7 +743,7 @@ Static method in class com.parse.<A HREF="./com/parse/ParseRole.html" title="cla
 <DD>Gets a <A HREF="./com/parse/ParseQuery.html" title="class in com.parse"><CODE>ParseQuery</CODE></A> over the Role collection.
 <DT><A HREF="./com/parse/ParseUser.html#getQuery()"><B>getQuery()</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseUser.html" title="class in com.parse">ParseUser</A>
-<DD>Constructs a query for ParseUsers.
+<DD><B>Deprecated.</B>&nbsp;<I>Please use <A HREF="./com/parse/ParseQuery.html#getQuery(java.lang.Class)"><CODE>ParseQuery.getQuery(Class)</CODE></A>.</I>
 <DT><A HREF="./com/parse/ParseACL.html#getReadAccess(java.lang.String)"><B>getReadAccess(String)</B></A> - 
 Method in class com.parse.<A HREF="./com/parse/ParseACL.html" title="class in com.parse">ParseACL</A>
 <DD>Get whether the given user id is *explicitly* allowed to read this object.
@@ -1423,6 +1423,9 @@ Method in class com.parse.<A HREF="./com/parse/ParseObject.html" title="class in
 <DT><A HREF="./com/parse/ParseQueryAdapter.html#removeOnQueryLoadListener(com.parse.ParseQueryAdapter.OnQueryLoadListener)"><B>removeOnQueryLoadListener(ParseQueryAdapter.OnQueryLoadListener&lt;T&gt;)</B></A> - 
 Method in class com.parse.<A HREF="./com/parse/ParseQueryAdapter.html" title="class in com.parse">ParseQueryAdapter</A>
 <DD>&nbsp;
+<DT><A HREF="./com/parse/ParseException.html#REQUEST_LIMIT_EXCEEDED"><B>REQUEST_LIMIT_EXCEEDED</B></A> - 
+Static variable in exception com.parse.<A HREF="./com/parse/ParseException.html" title="class in com.parse">ParseException</A>
+<DD>Error code indicating that the application has exceeded its analytics request limit.
 <DT><A HREF="./com/parse/ParseUser.html#requestPasswordReset(java.lang.String)"><B>requestPasswordReset(String)</B></A> - 
 Static method in class com.parse.<A HREF="./com/parse/ParseUser.html" title="class in com.parse">ParseUser</A>
 <DD>Requests a password reset email to be sent to the specified email address associated with the
