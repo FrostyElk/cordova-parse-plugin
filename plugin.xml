@@ -73,10 +73,9 @@
 		<source-file src="libs/android/parse/bolts-android-1.1.4.jar" target-dir="libs" framework="true" />
 		<source-file src="libs/android/parse/ParseCrashReporting-1.8.1.jar" target-dir="libs" framework="true" />
 
-		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePlugin.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
-		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePluginBroadcastReciever.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
-		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParsePluginMainApplication.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
-		<source-file src="src/android/se/frostyelk/cordova/parse/plugin/ParseWakeUpReceiver.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
+		<source-file src="src/android/ParsePlugin.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
+		<source-file src="src/android/ParsePluginBroadcastReciever.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
+		<source-file src="src/android/ParseWakeUpReceiver.java" target-dir="src/se/frostyelk/cordova/parse/plugin/" />
 	</platform>
 
 
