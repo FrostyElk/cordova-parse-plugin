@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0" id="se.frostyelk.cordova.parse.plugin" version="0.0.2">
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0" id="se.frostyelk.cordova.parse.plugin" version="0.0.3">
 	<name>Cordova Parse plugin</name>
 	<description>Cordova plugin for Parse</description>
 	<author>Arne Sikstrom</author>
