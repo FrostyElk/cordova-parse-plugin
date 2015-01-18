@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.parse.*;
 import org.apache.cordova.*;
 import org.apache.cordova.PluginResult.Status;
@@ -38,6 +37,10 @@ import java.util.Set;
  */
 public class ParsePlugin extends CordovaPlugin {
 
+    public static final String PREFERENCE_APP_ID = "se.frostyelk.cordova.parse.ParseAppId";
+    public static final String PREFERENCE_CLIENT_KEY = "se.frostyelk.cordova.parse.ClientKey";
+    public static final String SHARED_PREFERENCES = "se.frostyelk.cordova.parse";
+
     private static final String LOGTAG = "ParsePlugin";
     private static final String ACTION_INITIALIZE = "initialize";
     private static final String ACTION_GET_INSTALLATION_ID = "getInstallationId";
@@ -52,25 +55,9 @@ public class ParsePlugin extends CordovaPlugin {
     private static boolean appForeground = false;
     private static JSONObject pushDataJSON;
     private static boolean sendPushDataWhenResumed = false;
-    private static boolean sendPushDataAfterColdStart = false;
 
-    public static final String PREFERENCE_APP_ID = "se.frostyelk.cordova.parse.ParseAppId";
-    public static final String PREFERENCE_CLIENT_KEY = "se.frostyelk.cordova.parse.ClientKey";
-    public static final String SHARED_PREFERENCES = "se.frostyelk.cordova.parse";
     private String appId;
     private String clientKey;
-
-    @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView cordovaWebView) {
-        super.initialize(cordova, cordovaWebView);
-
-        webView = cordovaWebView;
-        cordovaInterface = cordova;
-
-        appForeground = true;
-
-        Log.i(LOGTAG, "Parse plugin initialize");
-    }
 
     public static boolean isAppForeground() {
         return appForeground;
@@ -92,27 +79,8 @@ public class ParsePlugin extends CordovaPlugin {
             sendPushDataWhenResumed = false;
             sendPushToWebView(pushDataJSON);
         } else {
-            sendPushDataAfterColdStart = extras.getBoolean("coldstart");
-
-            boolean foregroundActual;
-
-            if (sendPushDataAfterColdStart) {
-                // Cold start will not get a onResume(), Cordova bug/feature?
-                foregroundActual = false;
-            } else {
-                // After activity start the app will be foreground after
-                // onResume()
-                foregroundActual = true;
-            }
-
             // Wait for app to resume, then send notification
             sendPushDataWhenResumed = true;
-
-            try {
-                pushDataJSON.put("foreground", foregroundActual);
-            } catch (JSONException e) {
-                Log.i(LOGTAG, "JSON error: " + e.getMessage());
-            }
         }
     }
 
@@ -136,42 +104,6 @@ public class ParsePlugin extends CordovaPlugin {
                     webView.loadUrl(url);
                 }
             });
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(LOGTAG, "onDestroy");
-        appForeground = false;
-        webView = null;
-        final NotificationManager notificationManager = (NotificationManager) cordova.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-    }
-
-    @Override
-    public void onPause(boolean multitasking) {
-        super.onPause(multitasking);
-        Log.i(LOGTAG, "onPause");
-        appForeground = false;
-
-        SharedPreferences sharedPref = getActivity().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(PREFERENCE_APP_ID, appId);
-        editor.putString(PREFERENCE_CLIENT_KEY, clientKey);
-        editor.commit();
-
-    }
-
-    @Override
-    public void onResume(boolean multitasking) {
-        super.onResume(multitasking);
-        Log.i(LOGTAG, "onResume");
-        appForeground = true;
-
-        if (sendPushDataWhenResumed) {
-            sendPushDataWhenResumed = false;
-            sendPushToWebView(pushDataJSON);
         }
     }
 
@@ -239,13 +171,61 @@ public class ParsePlugin extends CordovaPlugin {
         return null;
     }
 
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView cordovaWebView) {
+        super.initialize(cordova, cordovaWebView);
+
+        webView = cordovaWebView;
+        cordovaInterface = cordova;
+
+        appForeground = true;
+
+        Log.i(LOGTAG, "Parse plugin initialize");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(LOGTAG, "onDestroy");
+        appForeground = false;
+        webView = null;
+        final NotificationManager notificationManager = (NotificationManager) cordova.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+    }
+
+    @Override
+    public void onPause(boolean multitasking) {
+        super.onPause(multitasking);
+        Log.i(LOGTAG, "onPause");
+        appForeground = false;
+
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(PREFERENCE_APP_ID, appId);
+        editor.putString(PREFERENCE_CLIENT_KEY, clientKey);
+        editor.commit();
+
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
+        Log.i(LOGTAG, "onResume");
+        appForeground = true;
+
+        if (sendPushDataWhenResumed) {
+            sendPushDataWhenResumed = false;
+            sendPushToWebView(pushDataJSON);
+        }
+    }
+
     /**
      * This is the main method for the Parse Plugin. All API calls go through
      * here. This method determines the action, and executes the appropriate
      * call.
      *
      * @param action          The action that the plugin should execute.
-     * @param args          The input parameters for the action.
+     * @param args            The input parameters for the action.
      * @param callbackContext The callback context.
      * @return A PluginResult representing the result of the provided action. A
      * status of INVALID_ACTION is returned if the action is not
@@ -253,7 +233,7 @@ public class ParsePlugin extends CordovaPlugin {
      */
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        PluginResult result = null;
+        PluginResult result;
 
         if (ACTION_INITIALIZE.equals(action)) {
             result = initialize(callbackContext, args);
@@ -356,8 +336,19 @@ public class ParsePlugin extends CordovaPlugin {
     private PluginResult unsubscribe(final String channel, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                PushService.unsubscribe(cordova.getActivity(), channel);
-                callbackContext.success();
+                Log.i(LOGTAG, "Unsubscribe to channel: " + channel);
+                ParsePush.unsubscribeInBackground(channel, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            callbackContext.success();
+                        } else {
+                            Log.i(LOGTAG, "Failed to unsubscribe for push: " + e.getMessage());
+                            callbackContext.error("Unsubscribe error: " + e.getMessage());
+                        }
+
+                    }
+                });
             }
         });
 
