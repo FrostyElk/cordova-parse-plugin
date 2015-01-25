@@ -96,8 +96,21 @@
 
 		<framework src="libs/ios/Parse.framework" custom="true" />
 		<framework src="libs/ios/Bolts.framework" custom="true" />
-		<!--		<framework src="libs/ios/ParseUI.framework" custom="true" />-->
-
+        
+        <framework src="Accounts.framework" />
+        <framework src="Social.framework" />
+        <framework src="AudioToolbox.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="CoreLocation.framework" />
+        <framework src="MobileCoreServices.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="Security.framework" />
+        <framework src="StoreKit.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="libz.dylib" />
+        <framework src="libsqlite3.dylib" />
+        
 	</platform>
 
 </plugin>
