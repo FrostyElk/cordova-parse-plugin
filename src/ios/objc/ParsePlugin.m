@@ -175,10 +175,6 @@ BOOL canDeliverNotifications = NO;
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     
-    //TODO: Why reset the badge here?
-    if (currentInstallation.badge != 0){
-        currentInstallation.badge = 0;
-    }
     [currentInstallation saveInBackground];
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
@@ -218,7 +214,14 @@ BOOL canDeliverNotifications = NO;
     
     NSString * jsCallBack = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onParsePushReceived', %@);",json];
     
-    //    NSLog(@"JS callback string: %@", jsCallBack);
+    // Decrement the badge when the push is opened
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSLog(@"Current installation badge: %d", currentInstallation.badge);
+    if (currentInstallation.badge > 0){
+        NSLog(@"Decrementing badge");
+        currentInstallation.badge--;
+        [currentInstallation saveInBackground];
+    }
     
     if(receivedInForeground) {
         NSLog(@"Sending in foreground");
