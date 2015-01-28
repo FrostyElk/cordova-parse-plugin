@@ -27,8 +27,9 @@ import com.parse.ParseInstallation;
 
 
 /**
- * This class starts just before ParsePush and does the Parse initialization.
- * The ParseWakeUpReceiver must be declared before com.parse.GcmBroadcastReceiver in the manifest.
+ * This class starts just before ParsePush and ParseBroadcastReceiver and does the Parse initialization.
+ * The ParseWakeUpReceiver must be declared before GcmBroadcastReceiver and ParseBroadcastReceiver in the manifest.
+ * The ParseWakeUpReceiver also handles when the device wakes up from sleep and receives android.intent.action.USER_PRESENT
  *
  * Note that is a brutal workaround due to that Parse(Facebook) refuses to fix this. It can probably stop working
  * anytime if the order of Receivers in the manifest are reordered by Android at load time.

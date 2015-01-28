@@ -25,6 +25,14 @@
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service android:name="com.parse.PushService"/>
 
+            <receiver android:name="se.frostyelk.cordova.parse.plugin.ParseWakeUpReceiver">
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                    <action android:name="android.intent.action.USER_PRESENT"/>
+                    <category android:name="$PACKAGE_NAME"/>
+                </intent-filter>
+            </receiver>
+
             <receiver android:name="com.parse.ParseBroadcastReceiver">
                 <intent-filter>
                     <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -32,12 +40,6 @@
                 </intent-filter>
             </receiver>
 
-            <receiver android:name="se.frostyelk.cordova.parse.plugin.ParseWakeUpReceiver">
-                <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                    <category android:name="$PACKAGE_NAME"/>
-                </intent-filter>
-            </receiver>
 
             <receiver android:name="com.parse.GcmBroadcastReceiver"
                       android:permission="com.google.android.c2dm.permission.SEND">

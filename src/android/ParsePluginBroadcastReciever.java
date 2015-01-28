@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
 
 public class ParsePluginBroadcastReciever extends ParsePushBroadcastReceiver {
@@ -76,5 +77,8 @@ public class ParsePluginBroadcastReciever extends ParsePushBroadcastReceiver {
         }
 
         ParsePlugin.receivePushData(pushData);
+
+        ParseAnalytics.trackAppOpenedInBackground(intent);
+
     }
 }

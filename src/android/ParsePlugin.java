@@ -267,6 +267,7 @@ public class ParsePlugin extends CordovaPlugin {
                     clientKey = args.getString(1);
                     Parse.initialize(cordova.getActivity(), appId, clientKey);
                     ParseInstallation.getCurrentInstallation().save();
+                    ParseAnalytics.trackAppOpenedInBackground(cordova.getActivity().getIntent());
                     callbackContext.success();
                 } catch (JSONException e) {
                     callbackContext.error("JSONException: " + e.getMessage());
