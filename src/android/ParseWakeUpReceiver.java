@@ -50,7 +50,7 @@ public class ParseWakeUpReceiver extends BroadcastReceiver {
             Log.d(TAG, "Parse Plugin is active, no need to start Parse");
         } else {
             if (!"".equals(appId)) {
-                Log.i(TAG, "Parse initialize: " + appId + ", " + clientKey);
+                Log.i(TAG, "Parse initialize in ParseWakeUpReceiver");
                 Parse.initialize(context.getApplicationContext(), appId, clientKey);
                 ParseInstallation.getCurrentInstallation().saveInBackground();
             }

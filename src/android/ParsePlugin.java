@@ -180,7 +180,7 @@ public class ParsePlugin extends CordovaPlugin {
 
         appForeground = true;
 
-        Log.i(LOGTAG, "Parse plugin initialize");
+        Log.i(LOGTAG, "Parse Cordova plugin initialize");
     }
 
     @Override
