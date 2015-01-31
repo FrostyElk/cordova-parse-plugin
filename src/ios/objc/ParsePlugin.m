@@ -93,7 +93,6 @@ BOOL canDeliverNotifications = NO;
     
     self.callbackId = command.callbackId;
     
-    //    [self flushNotificationEventQueue];
     canDeliverNotifications = YES;
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -218,7 +217,6 @@ BOOL canDeliverNotifications = NO;
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     NSLog(@"Current installation badge: %d", currentInstallation.badge);
     if (currentInstallation.badge > 0){
-        NSLog(@"Decrementing badge");
         currentInstallation.badge--;
         [currentInstallation saveInBackground];
     }

@@ -56,7 +56,7 @@
     NSString *appId =  [defaults objectForKey:@"AppId"];
     
     if (clientKey && appId) {
-        NSLog(@"Setting new Parse Id: %@, Key: %@", appId, clientKey);
+        NSLog(@"Setting new Parse Id in AppDelegate");
         [Parse setApplicationId:appId clientKey:clientKey];
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         [currentInstallation saveInBackground];
