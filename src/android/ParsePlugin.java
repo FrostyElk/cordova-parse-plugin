@@ -17,7 +17,6 @@
 package se.frostyelk.cordova.parse.plugin;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -189,8 +188,6 @@ public class ParsePlugin extends CordovaPlugin {
         Log.i(LOGTAG, "onDestroy");
         appForeground = false;
         webView = null;
-        final NotificationManager notificationManager = (NotificationManager) cordova.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
     }
 
     @Override
