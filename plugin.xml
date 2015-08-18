@@ -1,122 +1,97 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0" id="se.frostyelk.cordova.parse.plugin" version="0.1.2">
-    <name>Cordova Parse plugin</name>
-    <description>Cordova plugin for Parse</description>
-    <author>Arne Sikstrom</author>
-    <license>Apache License, Version 2.0</license>
-    <keywords>Parse</keywords>
-
-    <engines>
-        <engine name="cordova" version=">=3.5.0"/>
-    </engines>
-
-    <js-module src="www/ParsePlugin.js" name="ParsePlugin">
-        <clobbers target="ParsePlugin"/>
-    </js-module>
-
-    <dependency id="com.google.playservices" />
-
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="ParsePlugin">
-                <param name="android-package" value="se.frostyelk.cordova.parse.plugin.ParsePlugin"/>
-            </feature>
-        </config-file>
-
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <service android:name="com.parse.PushService"/>
-
-            <receiver android:name="se.frostyelk.cordova.parse.plugin.ParseWakeUpReceiver">
-                <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                    <action android:name="android.intent.action.USER_PRESENT"/>
-                    <category android:name="$PACKAGE_NAME"/>
-                </intent-filter>
-            </receiver>
-
-            <receiver android:name="com.parse.ParseBroadcastReceiver">
-                <intent-filter>
-                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                    <action android:name="android.intent.action.USER_PRESENT"/>
-                </intent-filter>
-            </receiver>
-
-
-            <receiver android:name="com.parse.GcmBroadcastReceiver"
-                      android:permission="com.google.android.c2dm.permission.SEND">
-                <intent-filter>
-                    <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                    <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-                    <category android:name="$PACKAGE_NAME"/>
-                </intent-filter>
-            </receiver>
-
-            <receiver android:exported="false"
-                      android:name="se.frostyelk.cordova.parse.plugin.ParsePluginBroadcastReciever">
-                <intent-filter>
-                    <action android:name="com.parse.push.intent.RECEIVE"/>
-                    <action android:name="com.parse.push.intent.OPEN"/>
-                    <action android:name="com.parse.push.intent.DELETE"/>
-                </intent-filter>
-            </receiver>
-
-        </config-file>
-
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.INTERNET"/>
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-            <uses-permission android:name="android.permission.WAKE_LOCK"/>
-            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-            <uses-permission android:name="android.permission.VIBRATE"/>
-            <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-            <permission android:protectionLevel="signature" android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
-            <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
-        </config-file>
-
-        <source-file src="libs/android/parse/Parse-1.8.2.jar" target-dir="libs" framework="true"/>
-        <source-file src="libs/android/parse/bolts-android-1.1.4.jar" target-dir="libs" framework="true"/>
-        <source-file src="libs/android/parse/ParseCrashReporting-1.8.2.jar" target-dir="libs" framework="true"/>
-
-        <source-file src="src/android/ParsePlugin.java" target-dir="src/se/frostyelk/cordova/parse/plugin/"/>
-        <source-file src="src/android/ParsePluginBroadcastReciever.java"
-                     target-dir="src/se/frostyelk/cordova/parse/plugin/"/>
-        <source-file src="src/android/ParseWakeUpReceiver.java" target-dir="src/se/frostyelk/cordova/parse/plugin/"/>
-    </platform>
-
-
-    <platform name="ios">
-        <config-file target="config.xml" parent="/*">
-            <feature name="ParsePlugin">
-                <param name="ios-package" value="ParsePlugin"/>
-                <param name="deployment-target" value="7.0"/>
-            </feature>
-        </config-file>
-
-        <header-file src="src/ios/objc/ParsePlugin.h"/>
-        <source-file src="src/ios/objc/ParsePlugin.m"/>
-
-        <header-file src="src/ios/objc/AppDelegate+ParsePushNotification.h"/>
-        <source-file src="src/ios/objc/AppDelegate+ParsePushNotification.m"/>
-
-        <framework src="libs/ios/Parse.framework" custom="true"/>
-        <framework src="libs/ios/Bolts.framework" custom="true"/>
-
-        <framework src="Accounts.framework"/>
-        <framework src="Social.framework"/>
-        <framework src="AudioToolbox.framework"/>
-        <framework src="CFNetwork.framework"/>
-        <framework src="CoreGraphics.framework"/>
-        <framework src="CoreLocation.framework"/>
-        <framework src="MobileCoreServices.framework"/>
-        <framework src="QuartzCore.framework"/>
-        <framework src="Security.framework"/>
-        <framework src="StoreKit.framework"/>
-        <framework src="SystemConfiguration.framework"/>
-        <framework src="libz.dylib"/>
-        <framework src="libsqlite3.dylib"/>
-
-    </platform>
-
+	<name>Cordova Parse plugin</name>
+	<description>Cordova plugin for Parse</description>
+	<author>Arne Sikstrom</author>
+	<license>Apache License, Version 2.0</license>
+	<keywords>Parse</keywords>
+	<engines>
+		<engine name="cordova" version=">=3.5.0"/>
+	</engines>
+	<js-module src="www/ParsePlugin.js" name="ParsePlugin">
+		<clobbers target="ParsePlugin"/>
+	</js-module>
+	<dependency id="cordova-plugin-googleplayservices"/>
+	<platform name="android">
+		<config-file target="res/xml/config.xml" parent="/*">
+			<feature name="ParsePlugin">
+				<param name="android-package" value="se.frostyelk.cordova.parse.plugin.ParsePlugin"/>
+			</feature>
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<service android:name="com.parse.PushService"/>
+			<receiver android:name="se.frostyelk.cordova.parse.plugin.ParseWakeUpReceiver">
+				<intent-filter>
+					<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+					<action android:name="android.intent.action.USER_PRESENT"/>
+					<category android:name="$PACKAGE_NAME"/>
+				</intent-filter>
+			</receiver>
+			<receiver android:name="com.parse.ParseBroadcastReceiver">
+				<intent-filter>
+					<action android:name="android.intent.action.BOOT_COMPLETED"/>
+					<action android:name="android.intent.action.USER_PRESENT"/>
+				</intent-filter>
+			</receiver>
+			<receiver android:name="com.parse.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+				<intent-filter>
+					<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+					<action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+					<category android:name="$PACKAGE_NAME"/>
+				</intent-filter>
+			</receiver>
+			<receiver android:exported="false" android:name="se.frostyelk.cordova.parse.plugin.ParsePluginBroadcastReciever">
+				<intent-filter>
+					<action android:name="com.parse.push.intent.RECEIVE"/>
+					<action android:name="com.parse.push.intent.OPEN"/>
+					<action android:name="com.parse.push.intent.DELETE"/>
+				</intent-filter>
+			</receiver>
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest">
+			<uses-permission android:name="android.permission.INTERNET"/>
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+			<uses-permission android:name="android.permission.WAKE_LOCK"/>
+			<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+			<uses-permission android:name="android.permission.VIBRATE"/>
+			<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+			<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+			<permission android:protectionLevel="signature" android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
+			<uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"/>
+		</config-file>
+		<source-file src="libs/android/parse/Parse-1.8.2.jar" target-dir="libs" framework="true"/>
+		<source-file src="libs/android/parse/bolts-android-1.1.4.jar" target-dir="libs" framework="true"/>
+		<source-file src="libs/android/parse/ParseCrashReporting-1.8.2.jar" target-dir="libs" framework="true"/>
+		<source-file src="src/android/ParsePlugin.java" target-dir="src/se/frostyelk/cordova/parse/plugin/"/>
+		<source-file src="src/android/ParsePluginBroadcastReciever.java" target-dir="src/se/frostyelk/cordova/parse/plugin/"/>
+		<source-file src="src/android/ParseWakeUpReceiver.java" target-dir="src/se/frostyelk/cordova/parse/plugin/"/>
+	</platform>
+	<platform name="ios">
+		<config-file target="config.xml" parent="/*">
+			<feature name="ParsePlugin">
+				<param name="ios-package" value="ParsePlugin"/>
+				<param name="deployment-target" value="7.0"/>
+			</feature>
+		</config-file>
+		<header-file src="src/ios/objc/ParsePlugin.h"/>
+		<source-file src="src/ios/objc/ParsePlugin.m"/>
+		<header-file src="src/ios/objc/AppDelegate+ParsePushNotification.h"/>
+		<source-file src="src/ios/objc/AppDelegate+ParsePushNotification.m"/>
+		<framework src="libs/ios/Parse.framework" custom="true"/>
+		<framework src="libs/ios/Bolts.framework" custom="true"/>
+		<framework src="Accounts.framework"/>
+		<framework src="Social.framework"/>
+		<framework src="AudioToolbox.framework"/>
+		<framework src="CFNetwork.framework"/>
+		<framework src="CoreGraphics.framework"/>
+		<framework src="CoreLocation.framework"/>
+		<framework src="MobileCoreServices.framework"/>
+		<framework src="QuartzCore.framework"/>
+		<framework src="Security.framework"/>
+		<framework src="StoreKit.framework"/>
+		<framework src="SystemConfiguration.framework"/>
+		<framework src="libz.dylib"/>
+		<framework src="libsqlite3.dylib"/>
+	</platform>
 </plugin>
+
