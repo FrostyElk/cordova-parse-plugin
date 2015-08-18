@@ -1,4 +1,5 @@
 /**
+ * Copyright (C) 2015 Glowworm Software
  * Copyright (C) 2015 Frosty Elk AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -95,8 +96,8 @@ public class ParsePlugin extends CordovaPlugin {
         final String url = "javascript:cordova.fireDocumentEvent('onParsePushReceived', " + jsonData.toString() + ");";
         Log.i(LOGTAG, "sendPushToWebView: " + url);
 
-        if (webView != null) {
-            webView.post(new Runnable() {
+        if ((webView != null) && (webView.getView() != null)) {
+            webView.getView().post(new Runnable() {
 
                 @Override
                 public void run() {

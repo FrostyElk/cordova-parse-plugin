@@ -6,7 +6,7 @@
 	<license>Apache License, Version 2.0</license>
 	<keywords>Parse</keywords>
 	<engines>
-		<engine name="cordova" version=">=3.5.0"/>
+		<engine name="cordova" version=">=4.0.0"/>
 	</engines>
 	<js-module src="www/ParsePlugin.js" name="ParsePlugin">
 		<clobbers target="ParsePlugin"/>
