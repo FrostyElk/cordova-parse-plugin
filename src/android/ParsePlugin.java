@@ -1,4 +1,5 @@
 /**
+ * Copyright (C) 2015 Glowworm Software
  * Copyright (C) 2015 Frosty Elk AB
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -95,8 +96,8 @@ public class ParsePlugin extends CordovaPlugin {
         final String url = "javascript:cordova.fireDocumentEvent('onParsePushReceived', " + jsonData.toString() + ");";
         Log.i(LOGTAG, "sendPushToWebView: " + url);
 
-        if (webView != null) {
-            webView.post(new Runnable() {
+        if ((webView != null) && (webView.getView() != null)) {
+            webView.getView().post(new Runnable() {
 
                 @Override
                 public void run() {
@@ -257,22 +258,16 @@ public class ParsePlugin extends CordovaPlugin {
     }
 
     private PluginResult initialize(final CallbackContext callbackContext, final JSONArray args) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                try {
-                    appId = args.getString(0);
-                    clientKey = args.getString(1);
-                    Parse.initialize(cordova.getActivity(), appId, clientKey);
-                    ParseInstallation.getCurrentInstallation().save();
-                    ParseAnalytics.trackAppOpenedInBackground(cordova.getActivity().getIntent());
-                    callbackContext.success();
-                } catch (JSONException e) {
-                    callbackContext.error("JSONException: " + e.getMessage());
-                } catch (ParseException e) {
-                    callbackContext.error("ParseException: " + e.getMessage());
-                }
-            }
-        });
+		try {
+			appId = args.getString(0);
+			clientKey = args.getString(1);
+			Parse.initialize(cordova.getActivity().getApplicationContext(), appId, clientKey);
+			ParseInstallation.getCurrentInstallation().saveInBackground();
+			ParseAnalytics.trackAppOpenedInBackground(cordova.getActivity().getIntent());
+			callbackContext.success();
+		} catch (JSONException e) {
+			callbackContext.error("JSONException: " + e.getMessage());
+		}
 
         return null;
     }
